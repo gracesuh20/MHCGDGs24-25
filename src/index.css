@@ -1,0 +1,79 @@
+/* CSS file to change styling of TodoList.jsx */
+:root {
+  font-family: Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  background-image: linear-gradient(#FFFFFF, #CDBBEB);
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 2em;
+  line-height: 1.1;
+  font-weight: 320;
+  margin-right: 10px;
+}
+
+.notification-button {
+  font-size: 0.7em;
+  margin-left: 10px;
+}
+
+button {
+  border-width: none;
+  border-color: none;
+  border-style: none;
+  background: none;
+  font-size: 1.5em;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+input[type = "text"] {
+  font-size: 1.4em;
+  font-style: italic;
+  font-weight: lighter;
+  padding: 10px;
+  border: 2px solid #bdb6c9;
+  border-radius: 5px;
+  position: relative;
+  margin-top: 9px;
+  margin-bottom: 20px;
+  margin-left: 20px;
+}
+
+input[type = "checkbox"] {
+  width: 18px;
+  height: 20px;
+  padding: 1px;
+}
+
+ol {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  font-size: 30;
+  font-weight: lighter;
+  padding: 20px;
+  margin-bottom: 15px;
+  border: 3px solid #090909;
+  border-width: thin;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.text {
+  flex: 1;
+}
