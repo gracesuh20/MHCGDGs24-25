@@ -1,10 +1,11 @@
 /* CSS file to change styling of TodoList.jsx */
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap");
 :root {
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: "Space Grotesk", Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
-  background-image: linear-gradient(#FFFFFF, #CDBBEB);
+  background-image: linear-gradient(#f8f7fa, #989ff2);
 }
 
 body {
@@ -19,7 +20,6 @@ h1 {
   font-size: 2em;
   line-height: 1.1;
   font-weight: 320;
-  margin-right: 10px;
 }
 
 .notification-button {
@@ -32,23 +32,29 @@ button {
   border-color: none;
   border-style: none;
   background: none;
-  font-size: 1.5em;
+  font-size: 1.6em;
   font-weight: 500;
   font-family: inherit;
   cursor: pointer;
 }
 
+.edit-task {
+  font-size: 1.2em;
+}
+
 input[type = "text"] {
-  font-size: 1.4em;
-  font-style: italic;
+  font-size: 1.5em;
+  font-family: "Space Grotesk", Helvetica, Arial, sans-serif;
   font-weight: lighter;
   padding: 10px;
   border: 2px solid #bdb6c9;
   border-radius: 5px;
+  border-width: thin;
+  border-color: black;
+  outline: none;
   position: relative;
   margin-top: 9px;
   margin-bottom: 20px;
-  margin-left: 20px;
 }
 
 input[type = "checkbox"] {
@@ -63,7 +69,6 @@ ol {
 }
 
 li {
-  font-size: 30;
   font-weight: lighter;
   padding: 20px;
   margin-bottom: 15px;
@@ -76,4 +81,6 @@ li {
 
 .text {
   flex: 1;
+  font-size: 1.3em;
+  margin-left: 10px;
 }
