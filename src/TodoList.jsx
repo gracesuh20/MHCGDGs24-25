@@ -17,7 +17,7 @@ import * as Icon from "react-icons/fi";
 import Checkbox from "react-custom-checkbox";
 
 /*
- * TodoList component that creates an interactive todo list
+ * TodoList component that creates an interactive todo list with tags
  */
 function TodoList() {
     // Functions to set tasks
@@ -26,6 +26,11 @@ function TodoList() {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [editIndex, setEditIndex] = useState(null);
     const [editText, setEditText] = useState("");
+    const [availableTags, setAvailableTags] = useState([]);
+    const [newTag, setNewTag] = useState("");
+    const [newTaskTags, setNewTaskTags] = useState([]);
+    const [editTaskTags, setEditTaskTags] = useState([]);
+    const [filterTag, setFilterTag] = useState("");
 
     // Helper function to format date
     const formatDate = (date) => {
@@ -43,6 +48,8 @@ function TodoList() {
         setSelectedDate(date);
         setEditIndex(null);
         setNewTask("");
+        setNewTaskTags([]);
+        setFilterTag("");
     }
 
     // Shows text in textbox
@@ -59,7 +66,8 @@ function TodoList() {
             const task = {
                 text: newTask,
                 checked: false,
-                isPriority: false
+                isPriority: false,
+                tags: newTaskTags
             };
 
             setTasksByDate({
@@ -67,6 +75,7 @@ function TodoList() {
                 [dateKey]: [...currentTasks, task]
             });
             setNewTask("");
+            setNewTaskTags([]);
         }
     }
 
@@ -83,9 +92,10 @@ function TodoList() {
     }
 
     // Start editing a task
-    function startEditing(index, text) {
+    function startEditing(index, text, tags) {
         setEditIndex(index);
         setEditText(text);
+        setEditTaskTags([...tags]);
     }
 
     // Save new edits to a task
@@ -94,6 +104,7 @@ function TodoList() {
             const dateKey = formatDate(selectedDate);
             const currentTasks = [...tasksByDate[dateKey]];
             currentTasks[index].text = editText;
+            currentTasks[index].tags = editTaskTags;
             
             setTasksByDate({
                 ...tasksByDate,
@@ -101,6 +112,7 @@ function TodoList() {
             });
             setEditIndex(null);
             setEditText("");
+            setEditTaskTags([]);
         }
     }
 
@@ -136,8 +148,56 @@ function TodoList() {
         });
     }
 
-    // Get tasks for the selected date
-    const currentTasks = getCurrentTasks();
+    // Add a new tag to available tags
+    function addNewTag() {
+        if (newTag.trim() !== "" && !availableTags.includes(newTag.trim())) {
+            setAvailableTags([...availableTags, newTag.trim()]);
+            setNewTag("");
+        }
+    }
+
+    // Toggle tag for new task
+    function toggleTagForNewTask(tag) {
+        if (newTaskTags.includes(tag)) {
+            setNewTaskTags(newTaskTags.filter(t => t !== tag));
+        } else {
+            setNewTaskTags([...newTaskTags, tag]);
+        }
+    }
+
+    // Toggle tag for task being edited
+    function toggleTagForEditTask(tag) {
+        if (editTaskTags.includes(tag)) {
+            setEditTaskTags(editTaskTags.filter(t => t !== tag));
+        } else {
+            setEditTaskTags([...editTaskTags, tag]);
+        }
+    }
+
+    // Create a starry mouse cursor trail
+    window.addEventListener('mousemove', function(e) {
+        var arr = [1, 0.9, 0.8, 0.5, 0.2];
+  
+        arr.forEach(function(i) {
+          var x = (1 - i) * 75;
+          var star = document.createElement('div');
+  
+          star.className = 'star';
+          star.style.top = e.pageY + Math.round(Math.random() * x - x / 2) + 'px';
+          star.style.left = e.pageX + Math.round(Math.random() * x - x / 2) + 'px';
+  
+          document.body.appendChild(star);
+  
+          window.setTimeout(function() {
+            document.body.removeChild(star);
+          }, Math.round(Math.random() * i * 600));
+        });
+    }, false);
+
+    // Get tasks for the selected date and filter by tag if needed
+    const currentTasks = getCurrentTasks().filter(task => 
+        filterTag === "" || task.tags.includes(filterTag)
+    );
 
     // Creates buttons, checkboxes, and textboxes
     return (
@@ -153,8 +213,8 @@ function TodoList() {
                     <MdOutlineEmail />
                 </button>
             </h1>
-            
-            <div>
+
+            <div className="task-input-container">
                 <input
                     type="text"
                     value={newTask}
@@ -166,6 +226,47 @@ function TodoList() {
                         }
                     }}
                 />
+                
+                <div className="tag-selector">
+                    <div className="available-tags">
+                        {availableTags.map((tag, idx) => (
+                            <span 
+                                key={idx} 
+                                className={`tag ${newTaskTags.includes(tag) ? 'selected' : ''}`}
+                                onClick={() => toggleTagForNewTask(tag)}
+                            >
+                                {tag}
+                            </span>
+                        ))}
+                    </div>
+                    <div className="new-tag-input">
+                        <input
+                            type="text"
+                            value={newTag}
+                            placeholder="Add new tag..."
+                            onChange={(e) => setNewTag(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                    addNewTag();
+                                }
+                            }}
+                        />
+                        <button onClick={addNewTag}>+</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div className="filter-container">
+                <label>Filter by tag: </label>
+                <select 
+                    value={filterTag} 
+                    onChange={(e) => setFilterTag(e.target.value)}
+                >
+                    <option value="">All Tasks</option>
+                    {availableTags.map((tag, idx) => (
+                        <option key={idx} value={tag}>{tag}</option>
+                    ))}
+                </select>
             </div>
 
             <ol>
@@ -190,6 +291,19 @@ function TodoList() {
                                         }
                                     }}
                                 />
+                                
+                                <div className="edit-tags">
+                                    {availableTags.map((tag, idx) => (
+                                        <span 
+                                            key={idx} 
+                                            className={`tag ${editTaskTags.includes(tag) ? 'selected' : ''}`}
+                                            onClick={() => toggleTagForEditTask(tag)}
+                                        >
+                                            {tag}
+                                        </span>
+                                    ))}
+                                </div>
+                                
                                 <button onClick={() => saveEdit(index)}>
                                     <MdOutlineCheck />
                                 </button>
@@ -199,10 +313,23 @@ function TodoList() {
                             </div>
                         ) : (
                             <>
-                                <span className="text">{task.text}</span>
+                                <span 
+                                    className="text" 
+                                    style={{
+                                        textDecoration: task.checked ? 'line-through' : 'none',
+                                        color: task.checked ? '#a19f9f' : 'inherit'
+                                    }}
+                                >
+                                    {task.text}
+                                    <div className="task-tags">
+                                        {task.tags.map((tag, idx) => (
+                                            <span key={idx} className="tag-pill">{tag}</span>
+                                        ))}
+                                    </div>
+                                </span>
                                 <button 
                                     className="edit-task"
-                                    onClick={() => startEditing(index, task.text)}>
+                                    onClick={() => startEditing(index, task.text, task.tags)}>
                                     <FaPen />
                                 </button>
                             </>

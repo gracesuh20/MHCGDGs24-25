@@ -21,7 +21,6 @@
     display: flex;
     flex-grow: 1;
     flex-shrink: 0;
-    border: thin solid rgb(10, 10, 10);
   }
   
   .react-date-picker__inputGroup {
@@ -95,6 +94,14 @@
   
   .react-date-picker__button svg {
     display: inherit;
+  }
+
+  .react-date-picker__clear-button {
+    display: none;
+  }
+
+  .react-date-picker__calendar-button {
+    display: none;
   }
   
   .react-date-picker__calendar {
