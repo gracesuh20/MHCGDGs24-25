@@ -1,0 +1,110 @@
+/* CSS file to change styling of TodoList.jsx */
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Playwrite+IT+Moderna:wght@100..400&display=swap");
+:root {
+  font-family: "Playwrite IT Moderna", Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  background: rgb(238,174,202);
+  background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 2em;
+  line-height: 1.1;
+  font-weight: 320;
+}
+
+.notification-button {
+  font-size: 1em;
+  margin-left: 10px;
+}
+
+button {
+  border-width: none;
+  border-color: none;
+  border-style: none;
+  background: none;
+  font-size: 1.6em;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.edit-task {
+  font-size: 1.2em;
+}
+
+input[type = "text"] {
+  font-size: 1.5em;
+  font-family: "Playwrite IT Moderna", Helvetica, Arial, sans-serif;
+  font-weight: lighter;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  border-width: thin;
+  border-color: black;
+  outline: none;
+  position: relative;
+  margin-top: 9px;
+  margin-bottom: 20px;
+}
+
+input[type = "checkbox"] {
+  width: 18px;
+  height: 20px;
+  padding: 1px;
+}
+
+ol {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  font-weight: lighter;
+  padding: 20px;
+  margin-bottom: 15px;
+  border-bottom: 1px dotted black;
+  display: flex;
+  align-items: center;
+}
+
+.text {
+  flex: 1;
+  font-size: 1.3em;
+  margin-left: 10px;
+}
+
+.star {
+	position: fixed;
+	pointer-events: none;
+}
+
+.star:before, .star:after {
+	position: absolute;
+	top: 0;
+	left: 0;
+	content: '\2726';
+	font-size: 6px;
+}
+
+.star:before {
+	color: transparent;
+	text-shadow: 0 0 3px rgb(250, 250, 174);
+}
+
+.star:after {
+	background: rgb(233, 233, 123);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
